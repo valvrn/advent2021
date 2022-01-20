@@ -8,16 +8,19 @@ depth = 0
 
 # Process next line
 
-def process(direction, value):
-    # Get key and value
-    #print(direction, value)
-    return 1, 10
+def process(direction:str, value:int):
+    if direction == "forward":
+        return value, 0
+    if direction == "up":
+        return 0, -value
+    if direction == "down":
+        return 0, value
 
 
 for line in input_lines:
     line_split = line.split(" ")
     key = line_split[0]
-    value = line_split[1]
+    value = int(line_split[1])
     dX, dY = process(key, value)
     distance = distance + dX
     depth = depth + dY
