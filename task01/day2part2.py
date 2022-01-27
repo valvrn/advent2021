@@ -1,9 +1,10 @@
 import sys
 
 class Submarine:
-    def __init__(self, depth1, distance1):
-        self.depth = depth1
-        self.distance = distance1
+    def __init__(self, depth, distance, aim):
+        self.depth = depth
+        self.distance = distance
+        self.aim = aim
 
     def print_result(self):
         print(self.depth * self.distance)
@@ -11,16 +12,17 @@ class Submarine:
     def process(self, direction: str, value: int):
         if direction == "forward":
             self.distance = self.distance + value
+            self.depth = self.depth + self.aim * value
         if direction == "up":
-            self.depth = self.depth - value
+            self.aim = self.aim - value
         if direction == "down":
-            self.depth = self.depth + value
+            self.aim = self.aim + value
 
 
 with open('day2input', 'r') as file:
     input_lines = [line.strip() for line in file]
 
-sub = Submarine(0, 0)
+sub = Submarine(0, 0, 0)
 
 for line in input_lines:
     line_split = line.split(" ")
