@@ -2,7 +2,7 @@ import os
 
 with open('day4input', 'r') as file:
     input_lines = [line.strip() for line in file]
-    
+
 
 class Boards:
     def __init__(self, boards, number):
@@ -14,17 +14,21 @@ class Boards:
             current_number_selection = self.number[select]
             for i in range(0, len(self.boards)):
                 current_board_data = self.boards[i]
-                for line in current_board_data:
-                    for n, x in enumerate(line):
-                        if x == current_number_selection:
-                            line[n] = -1
-                            if self.checking(current_board_data) is True:
-                                print(current_board_data)
-                                self.result(current_board_data, current_number_selection)
-                                return
+                self.process_board(current_board_data, current_number_selection)
 
+                if self.checking(current_board_data) is True:
+                    self.result(current_board_data, current_number_selection)
+                    return
 
-    def checking(self, current_board):
+    @staticmethod
+    def process_board(current_board_data, current_number_selection):
+        for line in current_board_data:
+            for n, x in enumerate(line):
+                if x == current_number_selection:
+                    line[n] = -1
+
+    @staticmethod
+    def checking(current_board):
         for line in current_board:
             if sum(line) == -5:
                 return True
@@ -36,8 +40,8 @@ class Boards:
 
         return False
 
-
-    def result(self, current_board_data, current_number_selection):
+    @staticmethod
+    def result(current_board_data, current_number_selection):
         final_summ = 0
         for line in current_board_data:
             for n, x in enumerate(line):
@@ -58,7 +62,7 @@ subgroup = []
 for i in range(0, len(raw_data)):
     if raw_data[i] == '':
         continue
-        
+
     current_subgroup = filter(None, raw_data[i].split(" "))
     current_subgroup = [int(n) for n in current_subgroup]
     subgroup.append(list(current_subgroup))
@@ -69,7 +73,3 @@ for i in range(0, len(raw_data)):
 
 boards = Boards(boards, number_selection)
 boards.process()
-
-
-
-
