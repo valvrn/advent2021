@@ -5,17 +5,15 @@ with open('day4input', 'r') as file:
     
 
 class Boards:
-    def __init__(self, dict_boards, number, name):
+    def __init__(self, boards, number):
         self.number = number
-        self.name = name
-        self.boards = dict_boards
+        self.boards = boards
 
     def process(self):
-        for select in range(0, len(self.name)):
+        for select in range(0, len(self.number)):
             current_number_selection = self.number[select]
-            for i in range(0, len(self.name)):
-                current_board_name = self.name[i]
-                current_board_data = self.boards[current_board_name]
+            for i in range(0, len(self.boards)):
+                current_board_data = self.boards[i]
                 for line in current_board_data:
                     for n, x in enumerate(line):
                         if x == current_number_selection:
@@ -46,7 +44,7 @@ class Boards:
                 if x != -1:
                     final_summ = final_summ + x
         final_result = final_summ * current_number_selection
-        print("resuilt is ", final_result)
+        print("result is ", final_result)
 
 
 number_selection = input_lines[0]
@@ -56,8 +54,6 @@ number_selection = [int(n) for n in number_selection]
 raw_data = input_lines[1:len(input_lines)]
 boards = []
 subgroup = []
-boards_name = []
-num = 1
 
 for i in range(0, len(raw_data)):
     if raw_data[i] == '':
@@ -69,12 +65,9 @@ for i in range(0, len(raw_data)):
 
     if len(subgroup) == 5:
         boards.append(subgroup)
-        boards_name.append("board" + str(num))
-        num += 1
         subgroup = []
 
-dict_boards = dict(zip(boards_name, boards))
-boards = Boards(dict_boards, number_selection, boards_name)
+boards = Boards(boards, number_selection)
 boards.process()
 
 
