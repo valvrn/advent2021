@@ -4,34 +4,56 @@ with open('day4input', 'r') as file:
     input_lines = [line.strip() for line in file]
     
 
-class Board:
-    def __init__(self, current_number, current_board_name, current_board_data):
-        self.number = current_number
-        self.name = current_board_name
-        self.board = current_board_data
+class Boards:
+    def __init__(self, dict_boards, number, name):
+        self.number = number
+        self.name = name
+        self.boards = dict_boards
 
-    def process(self, current_number, current_board_name, current_board_data):
-        # if [sum(i) for i in zip(*input_boards)] or
-        # while summ !=0:
-        #     try:
-        pass
+    def process(self):
+        for select in range(0, len(self.name)):
+            current_number_selection = self.number[select]
+            for i in range(0, len(self.name)):
+                current_board_name = self.name[i]
+                current_board_data = self.boards[current_board_name]
+                for line in current_board_data:
+                    for n, x in enumerate(line):
+                        if x == current_number_selection:
+                            line[n] = -1
+                            if self.checking(current_board_data) is True:
+                                print(current_board_data)
+                                self.result(current_board_data, current_number_selection)
+                                return
 
-    def result(self):
-        pass
 
-    def print(self):
-        print(self[0])
+    def checking(self, current_board):
+        for line in current_board:
+            if sum(line) == -5:
+                return True
+
+        sum_rows = [sum(i) for i in zip(*current_board)]
+        for n, x in enumerate(sum_rows):
+            if x == -5:
+                return True
+
+        return False
+
+
+    def result(self, current_board_data, current_number_selection):
+        final_summ = 0
+        for line in current_board_data:
+            for n, x in enumerate(line):
+                if x != -1:
+                    final_summ = final_summ + x
+        final_result = final_summ * current_number_selection
+        print("resuilt is ", final_result)
 
 
 number_selection = input_lines[0]
 number_selection = number_selection.split(",")
-
-# print(number_selection)
-# print(type(number_selection))
-# print(number_selection[2])
+number_selection = [int(n) for n in number_selection]
 
 raw_data = input_lines[1:len(input_lines)]
-
 boards = []
 subgroup = []
 boards_name = []
@@ -40,32 +62,21 @@ num = 1
 for i in range(0, len(raw_data)):
     if raw_data[i] == '':
         continue
-    # да, это сложное выражение, но тут мы делаем один список-ряд, из входящих сырых данных и убираем пустые
-    # элементы, которые появились в результате разного количества пробелов
-    subgroup.append(list(filter(None, raw_data[i].split(" "))))
+        
+    current_subgroup = filter(None, raw_data[i].split(" "))
+    current_subgroup = [int(n) for n in current_subgroup]
+    subgroup.append(list(current_subgroup))
 
     if len(subgroup) == 5:
         boards.append(subgroup)
-        # еще один список с создаваемыми именами бордов
         boards_name.append("board" + str(num))
         num += 1
         subgroup = []
 
-# print(boards)
-# print(boards_name)
-# Объединяем два списка в словарь
 dict_boards = dict(zip(boards_name, boards))
+boards = Boards(dict_boards, number_selection, boards_name)
+boards.process()
 
-# print(dict_boards["board1"])
 
-for select in range(0, len(number_selection)):
-    current_number_selection = number_selection[select]
-    for i in range(0, len(boards_name)):
-        current_board_name = boards_name[i]
-        current_board_data = dict_boards[current_board_name]
-        print(current_number_selection, current_board_name, current_board_data)
-        Board(current_number_selection, current_board_name, current_board_data)
-#
-# for i in range(1, len(input_lines)):
-#     Board(input_lines(i), number_selection)
+
 
