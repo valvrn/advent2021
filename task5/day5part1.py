@@ -19,7 +19,12 @@ def write_data(board, mod_string):
 
 
 def count_result(board):
-    return 5
+    count = 0
+    for i in range(0, size):
+        for j in range(0, size):
+            if board[i][j] >= 2:
+                count += 1
+    return count
 
 
 board = []
@@ -30,9 +35,12 @@ for i in range(0, size):
         subboard.append(0)
     board.append(subboard)
 
-write_data(board, [0, 1, 4, 1])
+
+board[1][1] = 3
+board[2][2] = 1
+board[4][4] = 7
 # for i in range(0, len(input_lines)):
 #     mod_string = parse_string(input_lines[i])
 #     write_data(board, mod_string)
 #
-print(board)
+print(count_result(board))
