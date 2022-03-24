@@ -4,8 +4,11 @@ with open('day5input', 'r') as file:
     input_lines = [line.strip() for line in file]
 
 
-def parse_string(line):
-    mod_line = [0, 1, 0, 3]
+def parse_string(mod_line):
+    mod_line = mod_line.split(" -> ")
+    mod_line[0] = mod_line[0].split(",")
+    mod_line[1] = mod_line[1].split(",")
+    mod_line = [mod_line[0][0], mod_line[0][1], mod_line[1][0], mod_line[1][1]]
     return mod_line
 
 
@@ -36,11 +39,8 @@ for i in range(0, size):
     board.append(subboard)
 
 
-board[1][1] = 3
-board[2][2] = 1
-board[4][4] = 7
 # for i in range(0, len(input_lines)):
 #     mod_string = parse_string(input_lines[i])
 #     write_data(board, mod_string)
 #
-print(count_result(board))
+print(parse_string(input_lines[2]))
