@@ -12,6 +12,19 @@ def parse_string(mod_line):
     return mod_line
 
 
+# ..........
+
+
+
+
+
+
+
+
+
+
+
+
 def write_data(board, mod_string):
     if mod_string[0] == mod_string[2]:
         for i in range(min(mod_string[1], mod_string[3]), max(mod_string[1], mod_string[3])+1):
